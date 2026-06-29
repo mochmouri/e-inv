@@ -907,11 +907,11 @@ body[lang="ar"] .closing-date {
   margin: 4px 0;
 }
 
-.rings-svg {
-  width: 110px;
+.rings-img {
+  width: 140px;
   height: auto;
-  color: var(--rose);
   margin: 0 auto;
+  display: block;
 }
 
 .closing-love {
