@@ -1,0 +1,979 @@
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --maroon-deep: #4a0707;
+  --maroon: #5c0c0c;
+  --maroon-soft: #7a1f1f;
+  --rose: #c9a3a3;
+  --cream: #f4ece2;
+  --cream-soft: #f8f1e7;
+  --gold: #c9a063;
+  --gold-bright: #e8c789;
+  --ink: #3a2418;
+  --ink-soft: #6b5648;
+
+  --font-latin-display: 'Allura', cursive;
+  --font-latin-body: 'Cormorant Garamond', Georgia, serif;
+  --font-arabic-display: 'Aref Ruqaa', serif;
+  --font-arabic-body: 'Amiri', serif;
+
+  --max-w: 420px;
+  --pad-x: 24px;
+  --radius-card: 0 0 16px 16px;
+}
+
+/* ═══════════════════════════════════════════
+   RESET + BASE
+═══════════════════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-latin-body);
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+body[lang="ar"] {
+  font-family: var(--font-arabic-body);
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ═══════════════════════════════════════════
+   LANGUAGE TOGGLE
+═══════════════════════════════════════════ */
+.lang-toggle {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 999;
+  background: rgba(74, 7, 7, 0.72);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--gold);
+  color: var(--gold-bright);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-family: var(--font-latin-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s;
+}
+
+.lang-toggle:hover {
+  background: rgba(74, 7, 7, 0.92);
+}
+
+.lang-sep {
+  opacity: 0.5;
+  font-size: 0.65rem;
+}
+
+.active-lang {
+  font-weight: 600;
+  color: #fff;
+}
+
+html[dir="rtl"] .lang-toggle {
+  right: auto;
+  left: 18px;
+}
+
+/* ═══════════════════════════════════════════
+   SECTION SCAFFOLDING
+═══════════════════════════════════════════ */
+.section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px var(--pad-x);
+}
+
+.section--maroon {
+  background: linear-gradient(160deg, var(--maroon-deep) 0%, var(--maroon) 55%, var(--maroon-soft) 100%);
+  color: var(--cream-soft);
+}
+
+.section--cream {
+  background: var(--cream-soft);
+  color: var(--ink);
+}
+
+.section-inner {
+  width: 100%;
+  max-width: var(--max-w);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+/* ═══════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   DIVIDERS
+═══════════════════════════════════════════ */
+.divider {
+  width: 100%;
+  max-width: 280px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gold);
+}
+
+.divider--maroon::before,
+.divider--maroon::after {
+  background: var(--maroon-soft);
+}
+
+.divider--narrow {
+  max-width: 180px;
+}
+
+.divider__dot {
+  width: 5px;
+  height: 5px;
+  border: 1px solid var(--gold);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+.divider__dot--maroon {
+  border-color: var(--maroon-soft);
+}
+
+.divider__glyph {
+  color: var(--gold);
+  font-family: var(--font-latin-body);
+  font-size: 1rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* ═══════════════════════════════════════════
+   EYEBROW LABELS
+═══════════════════════════════════════════ */
+.eyebrow {
+  font-family: var(--font-latin-body);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.eyebrow--ink {
+  color: var(--ink-soft);
+}
+
+body[lang="ar"] .eyebrow {
+  letter-spacing: 0;
+  font-family: var(--font-arabic-body);
+  font-size: 0.75rem;
+}
+
+/* ═══════════════════════════════════════════
+   SECTION 1 · COVER
+═══════════════════════════════════════════ */
+#cover {
+  padding: 40px var(--pad-x);
+}
+
+.cover__card {
+  width: 100%;
+  max-width: var(--max-w);
+  border: 1px solid rgba(201, 160, 99, 0.5);
+  border-radius: 4px;
+  padding: 3px;
+}
+
+.cover__card-inner {
+  border: 1px solid rgba(201, 160, 99, 0.25);
+  border-radius: 3px;
+  padding: 52px 32px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+}
+
+.names-script {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.name-script {
+  font-family: var(--font-latin-display);
+  font-size: 3.6rem;
+  line-height: 1.1;
+  color: var(--gold-bright);
+}
+
+body[lang="ar"] .name-script {
+  font-family: var(--font-arabic-display);
+  font-size: 3rem;
+}
+
+.name-script--maroon {
+  color: var(--maroon);
+}
+
+.names-amp {
+  font-family: var(--font-latin-body);
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.names-amp--gold {
+  color: var(--gold);
+}
+
+.names-amp--large {
+  font-size: 2.2rem;
+  color: var(--gold);
+}
+
+.divider-vertical {
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  margin: 0 auto;
+}
+
+.names-italic {
+  font-family: var(--font-latin-body);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--rose);
+  letter-spacing: 0.06em;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+body[lang="ar"] .names-italic {
+  font-family: var(--font-arabic-body);
+}
+
+.amp-small {
+  font-size: 0.85rem;
+  color: var(--gold);
+}
+
+.cover-date {
+  font-family: var(--font-latin-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  color: var(--rose);
+}
+
+body[lang="ar"] .cover-date {
+  letter-spacing: 0.06em;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: var(--font-latin-body);
+  font-size: 0.65rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  padding: 10px 28px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.25s, color 0.25s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.btn-outline:hover {
+  background: var(--gold);
+  color: var(--maroon-deep);
+}
+
+body[lang="ar"] .btn-outline {
+  letter-spacing: 0.04em;
+  font-family: var(--font-arabic-body);
+}
+
+.btn-outline--maroon {
+  border-color: var(--maroon-soft);
+  color: var(--maroon);
+}
+
+.btn-outline--maroon:hover {
+  background: var(--maroon);
+  color: var(--cream);
+}
+
+/* ═══════════════════════════════════════════
+   SECTION 2 · GREETING
+═══════════════════════════════════════════ */
+.names-script--maroon {
+  gap: 8px;
+}
+
+.greeting-text {
+  font-family: var(--font-latin-body);
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+}
+
+body[lang="ar"] .greeting-text {
+  font-family: var(--font-arabic-body);
+  letter-spacing: 0;
+}
+
+.greeting-text--italic {
+  font-style: italic;
+  color: var(--maroon-soft);
+}
+
+.scroll-hint {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.scroll-hint__text {
+  font-size: 0.58rem;
+  letter-spacing: 0.26em;
+  color: var(--ink-soft);
+  opacity: 0.6;
+}
+
+body[lang="ar"] .scroll-hint__text {
+  letter-spacing: 0;
+  font-size: 0.72rem;
+}
+
+.scroll-hint__chevron {
+  font-size: 1.4rem;
+  color: var(--gold);
+  animation: bob 1.8s ease-in-out infinite;
+  line-height: 1;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
+}
+
+/* ═══════════════════════════════════════════
+   SECTION 3 · INVITATION CARD
+═══════════════════════════════════════════ */
+.invite-card {
+  width: 100%;
+  max-width: var(--max-w);
+  background: var(--maroon-deep);
+  border-radius: 0 0 20px 20px;
+  padding: 40px 28px 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+  box-shadow: 0 8px 40px rgba(74, 7, 7, 0.18);
+}
+
+.monogram {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: rgba(201, 160, 99, 0.08);
+}
+
+.monogram__initial {
+  font-family: var(--font-latin-display);
+  font-size: 1.6rem;
+  color: var(--gold-bright);
+  line-height: 1;
+}
+
+body[lang="ar"] .monogram__initial {
+  font-family: var(--font-arabic-display);
+}
+
+.monogram__amp {
+  font-family: var(--font-latin-body);
+  font-style: italic;
+  font-size: 0.75rem;
+  color: var(--gold);
+  line-height: 1;
+}
+
+body[lang="ar"] .monogram__amp {
+  font-family: var(--font-arabic-body);
+}
+
+.bismillah {
+  font-family: var(--font-arabic-display);
+  font-size: 1.35rem;
+  color: var(--gold-bright);
+  direction: rtl;
+  line-height: 1.8;
+}
+
+.quran-verse {
+  font-family: var(--font-arabic-body);
+  font-size: 1.05rem;
+  color: var(--cream-soft);
+  direction: rtl;
+  text-align: right;
+  line-height: 2.2;
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.quran-verse p {
+  margin-bottom: 4px;
+}
+
+.quran-verse cite {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--rose);
+  font-style: normal;
+  margin-top: 8px;
+  letter-spacing: 0.02em;
+}
+
+.invite-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.invite-body__lead {
+  font-family: var(--font-latin-body);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--rose);
+  line-height: 1.8;
+}
+
+body[lang="ar"] .invite-body__lead {
+  font-family: var(--font-arabic-body);
+  font-style: normal;
+  direction: rtl;
+}
+
+.invite-names-ar {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.name-ar-large {
+  font-family: var(--font-arabic-display);
+  font-size: 2.2rem;
+  color: var(--gold-bright);
+  line-height: 1.2;
+}
+
+body:not([lang="ar"]) .name-ar-large {
+  font-family: var(--font-latin-display);
+}
+
+.name-ar-large--connector {
+  font-family: var(--font-latin-body);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--gold);
+}
+
+body[lang="ar"] .name-ar-large--connector {
+  font-family: var(--font-arabic-body);
+}
+
+.invite-body__text {
+  font-family: var(--font-latin-body);
+  font-size: 0.88rem;
+  color: var(--cream-soft);
+  line-height: 1.85;
+}
+
+body[lang="ar"] .invite-body__text {
+  font-family: var(--font-arabic-body);
+  direction: rtl;
+}
+
+.invite-body__closing {
+  font-family: var(--font-latin-body);
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--rose);
+}
+
+body[lang="ar"] .invite-body__closing {
+  font-family: var(--font-arabic-body);
+  font-style: normal;
+  direction: rtl;
+}
+
+/* ═══════════════════════════════════════════
+   SECTION 4 · COUNTDOWN
+═══════════════════════════════════════════ */
+.section--countdown {
+  gap: 0;
+}
+
+.icon-wrapper {
+  margin-bottom: 12px;
+}
+
+.icon-svg {
+  width: 52px;
+  height: 52px;
+  color: var(--gold);
+  margin: 0 auto;
+}
+
+.icon-svg--sm {
+  width: 38px;
+  height: 50px;
+}
+
+.section-heading {
+  font-family: var(--font-latin-body);
+  font-weight: 400;
+  font-size: 1.6rem;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+
+body[lang="ar"] .section-heading {
+  font-family: var(--font-arabic-body);
+  letter-spacing: 0;
+}
+
+.section-heading--cream {
+  color: var(--cream-soft);
+}
+
+.section-sub {
+  font-family: var(--font-latin-body);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  margin-top: -10px;
+}
+
+body[lang="ar"] .section-sub {
+  font-family: var(--font-arabic-body);
+  font-style: normal;
+  direction: rtl;
+}
+
+.section-sub--rose {
+  color: var(--rose);
+}
+
+.countdown-display {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  margin: 10px 0 16px;
+}
+
+.countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.countdown-num {
+  font-family: var(--font-latin-body);
+  font-weight: 300;
+  font-size: 3.6rem;
+  line-height: 1;
+  color: var(--maroon);
+  letter-spacing: -0.02em;
+  min-width: 80px;
+  text-align: center;
+}
+
+.countdown-label {
+  font-family: var(--font-latin-body);
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+body[lang="ar"] .countdown-label {
+  letter-spacing: 0;
+  font-family: var(--font-arabic-body);
+  font-size: 0.7rem;
+}
+
+.countdown-dot {
+  font-size: 2rem;
+  color: var(--gold);
+  margin-bottom: 20px;
+  line-height: 1;
+}
+
+.icon-row {
+  display: flex;
+  gap: 28px;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: 8px;
+  color: var(--rose);
+}
+
+/* ═══════════════════════════════════════════
+   SECTION 5 · VENUE
+═══════════════════════════════════════════ */
+.venue-card {
+  width: 100%;
+  max-width: var(--max-w);
+  background: var(--cream-soft);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(74, 7, 7, 0.2);
+}
+
+.venue-card__illustration {
+  width: 100%;
+  padding: 16px 16px 0;
+  background: var(--cream);
+}
+
+.venue-card__illustration svg {
+  width: 100%;
+  height: auto;
+}
+
+.venue-card__body {
+  padding: 24px 24px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.venue-name {
+  font-family: var(--font-latin-display);
+  font-size: 2rem;
+  color: var(--maroon);
+  line-height: 1.2;
+}
+
+body[lang="ar"] .venue-name {
+  font-family: var(--font-arabic-display);
+}
+
+.venue-desc {
+  font-family: var(--font-latin-body);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+body[lang="ar"] .venue-desc {
+  font-family: var(--font-arabic-body);
+  font-style: normal;
+  direction: rtl;
+}
+
+.venue-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.venue-time__hour {
+  font-family: var(--font-latin-body);
+  font-weight: 300;
+  font-size: 3rem;
+  color: var(--cream-soft);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.venue-time__hour small {
+  font-size: 1.1rem;
+  font-weight: 400;
+  opacity: 0.65;
+  letter-spacing: 0.08em;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
+body[lang="ar"] .venue-time__hour {
+  font-family: var(--font-arabic-body);
+}
+
+.venue-date-display {
+  font-family: var(--font-latin-body);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--cream-soft);
+  opacity: 0.85;
+}
+
+body[lang="ar"] .venue-date-display {
+  font-family: var(--font-arabic-body);
+  font-style: normal;
+  direction: rtl;
+}
+
+.venue-punctuality {
+  font-family: var(--font-latin-body);
+  font-size: 0.78rem;
+  color: var(--rose);
+  font-style: italic;
+  opacity: 0.8;
+  max-width: 300px;
+  line-height: 1.6;
+  margin-top: 4px;
+}
+
+body[lang="ar"] .venue-punctuality {
+  font-family: var(--font-arabic-body);
+  font-style: normal;
+  direction: rtl;
+}
+
+/* ═══════════════════════════════════════════
+   SECTION 6 · NOTES
+═══════════════════════════════════════════ */
+.section--notes {
+  min-height: 50vh;
+  padding: 60px var(--pad-x);
+}
+
+.note-card {
+  width: 100%;
+  max-width: 340px;
+  border: 1px solid var(--maroon-soft);
+  border-radius: 4px;
+  padding: 32px 28px;
+  position: relative;
+}
+
+.note-card__corner {
+  position: absolute;
+  font-size: 0.9rem;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.note-card__corner--tl {
+  top: 8px;
+  left: 10px;
+}
+
+.note-card__corner--br {
+  bottom: 8px;
+  right: 10px;
+}
+
+.note-card__text {
+  font-family: var(--font-latin-body);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  text-align: center;
+}
+
+body[lang="ar"] .note-card__text {
+  font-family: var(--font-arabic-body);
+  font-style: normal;
+  direction: rtl;
+}
+
+/* ═══════════════════════════════════════════
+   SECTION 7 · CLOSING
+═══════════════════════════════════════════ */
+.closing-names {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.name-script--closing {
+  font-family: var(--font-latin-display);
+  font-size: 3.2rem;
+  color: var(--cream-soft);
+  line-height: 1.1;
+}
+
+body[lang="ar"] .name-script--closing {
+  font-family: var(--font-arabic-display);
+}
+
+.closing-date {
+  font-family: var(--font-latin-body);
+  font-size: 0.62rem;
+  letter-spacing: 0.26em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+body[lang="ar"] .closing-date {
+  letter-spacing: 0.04em;
+  font-size: 0.78rem;
+  font-family: var(--font-arabic-body);
+}
+
+.rings-wrapper {
+  margin: 4px 0;
+}
+
+.rings-svg {
+  width: 110px;
+  height: auto;
+  color: var(--rose);
+  margin: 0 auto;
+}
+
+.closing-love {
+  font-family: var(--font-latin-body);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--rose);
+  opacity: 0.85;
+}
+
+body[lang="ar"] .closing-love {
+  font-family: var(--font-arabic-body);
+  font-style: normal;
+  direction: rtl;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — 380px and below
+═══════════════════════════════════════════ */
+@media (max-width: 380px) {
+  :root {
+    --pad-x: 16px;
+  }
+
+  .name-script {
+    font-size: 2.9rem;
+  }
+
+  .name-script--closing {
+    font-size: 2.6rem;
+  }
+
+  .countdown-num {
+    font-size: 2.8rem;
+    min-width: 62px;
+  }
+
+  .cover__card-inner {
+    padding: 40px 20px 36px;
+  }
+
+  .invite-card {
+    padding: 32px 18px 36px;
+  }
+
+  .quran-verse {
+    font-size: 0.95rem;
+  }
+
+  .bismillah {
+    font-size: 1.15rem;
+  }
+
+  .venue-time__hour {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .name-script {
+    font-size: 2.5rem;
+  }
+
+  .countdown-num {
+    font-size: 2.4rem;
+    min-width: 52px;
+  }
+
+  .quran-verse {
+    font-size: 0.88rem;
+  }
+}
