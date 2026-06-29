@@ -709,8 +709,14 @@ body[lang="ar"] .countdown-label {
 
 .venue-card__illustration {
   width: 100%;
-  padding: 16px 16px 0;
   background: var(--cream);
+  overflow: hidden;
+}
+
+.venue-card__illustration img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .venue-card__illustration svg {
